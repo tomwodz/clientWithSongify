@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface ShawnMendesProxy {
 
-    @GetMapping(value = "/search")
-    String makeSearchRequest(
+    @GetMapping(value = "/search1")
+    ShawnMendesResponse makeSearchRequest(
             @RequestParam("term") String term,
             @RequestParam("limit") Integer limit
     );
