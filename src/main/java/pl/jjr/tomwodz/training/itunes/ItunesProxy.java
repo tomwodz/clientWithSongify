@@ -1,16 +1,16 @@
-package pl.jjr.tomwodz.training;
+package pl.jjr.tomwodz.training.itunes;
 
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "shawnmendes-client", url="https://itunes.apple.com")
+@FeignClient(value = "itunes-client")
 
-public interface ShawnMendesProxy {
+public interface ItunesProxy {
 
-    @GetMapping(value = "/search1")
-    ShawnMendesResponse makeSearchRequest(
+    @GetMapping(value = "/search")
+    ItunesResponse makeSearchRequest(
             @RequestParam("term") String term,
             @RequestParam("limit") Integer limit
     );
