@@ -10,13 +10,8 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.event.EventListener;
 import pl.jjr.tomwodz.training.itunes.ItunesProxy;
-import pl.jjr.tomwodz.training.itunes.ItunesResponse;
-import pl.jjr.tomwodz.training.itunes.ItunesResult;
-import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleServerShawnMendesResponse;
 import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleShawnMendesRequest;
 import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleShawnMendesServerProxy;
-
-import java.util.List;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
 
@@ -29,7 +24,7 @@ public class TrainingApplication {
     ItunesProxy itunesClient;
 
     @Autowired
-    SampleShawnMendesServerProxy sampleShawnMendesServerClinet;
+    SampleShawnMendesServerProxy sampleShawnMendesServerClient;
 
    // Logger log = getLogger(TrainingApplication.class);
 
@@ -41,9 +36,12 @@ public class TrainingApplication {
     public void run() {
         try {
 //            ItunesResponse response = itunesClient.makeSearchRequest("shawnmendes", 5);
-            log.info(sampleShawnMendesServerClinet.fetchAllSongs("id1"));
-            log.info(sampleShawnMendesServerClinet.addSong(new SampleShawnMendesRequest("piosenka next")));
-            log.info(sampleShawnMendesServerClinet.fetchAllSongs("id2"));
+            log.info(sampleShawnMendesServerClient.fetchAllSongs("id1"));
+            //sampleShawnMendesServerClient.deleteByIdUsingQueryParam("0");
+            log.info(sampleShawnMendesServerClient.addSong(new SampleShawnMendesRequest("piosenka 111")));
+            log.info(sampleShawnMendesServerClient.addSong(new SampleShawnMendesRequest("piosenka 222")));
+            sampleShawnMendesServerClient.deleteByPathVariableId("0");
+            log.info(sampleShawnMendesServerClient.fetchAllSongs("id2"));
         } catch (FeignException.FeignClientException feignException) {
             log.error("Client exception: " + feignException.status());
         } catch (FeignException.FeignServerException feignException) {

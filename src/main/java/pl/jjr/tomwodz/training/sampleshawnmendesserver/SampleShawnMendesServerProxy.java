@@ -15,4 +15,10 @@ public interface SampleShawnMendesServerProxy {
 
     @PostMapping(value = "/shawn/songs")
     SampleServerShawnMendesResponse addSong(@RequestBody SampleShawnMendesRequest request);
+
+    @DeleteMapping(value = "/shawn/songs/{songId}")
+    void deleteByPathVariableId(@PathVariable String songId);
+
+    @DeleteMapping(value = "/shawn/songs")
+    void deleteByIdUsingQueryParam(@RequestParam(name="id") String songId);
 }
