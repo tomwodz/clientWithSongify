@@ -13,6 +13,7 @@ import pl.jjr.tomwodz.training.itunes.ItunesProxy;
 import pl.jjr.tomwodz.training.itunes.ItunesResponse;
 import pl.jjr.tomwodz.training.itunes.ItunesResult;
 import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleServerShawnMendesResponse;
+import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleShawnMendesRequest;
 import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleShawnMendesServerProxy;
 
 import java.util.List;
@@ -40,8 +41,9 @@ public class TrainingApplication {
     public void run() {
         try {
 //            ItunesResponse response = itunesClient.makeSearchRequest("shawnmendes", 5);
-            SampleServerShawnMendesResponse response = sampleShawnMendesServerClinet.fetchAllSongs("id1");
-            log.info(response);
+            log.info(sampleShawnMendesServerClinet.fetchAllSongs("id1"));
+            log.info(sampleShawnMendesServerClinet.addSong(new SampleShawnMendesRequest("piosenka next")));
+            log.info(sampleShawnMendesServerClinet.fetchAllSongs("id2"));
         } catch (FeignException.FeignClientException feignException) {
             log.error("Client exception: " + feignException.status());
         } catch (FeignException.FeignServerException feignException) {
