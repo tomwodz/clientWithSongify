@@ -1,5 +1,4 @@
 package pl.jjr.tomwodz.training;
-
 import feign.FeignException;
 import feign.RetryableException;
 import lombok.extern.log4j.Log4j2;
@@ -9,24 +8,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.event.EventListener;
-import pl.jjr.tomwodz.training.itunes.ItunesProxy;
-import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleShawnMendesRequest;
-import pl.jjr.tomwodz.training.sampleshawnmendesserver.SampleShawnMendesServerProxy;
+import pl.jjr.tomwodz.training.songifyclient.model.SongAdd;
+import pl.jjr.tomwodz.training.songifyclient.service.SongifyService;
 
-import static org.apache.logging.log4j.LogManager.getLogger;
 
 @SpringBootApplication
 @EnableFeignClients
 @Log4j2
 public class TrainingApplication {
 
-    @Autowired
-    ItunesProxy itunesClient;
 
-    @Autowired
-    SampleShawnMendesServerProxy sampleShawnMendesServerClient;
-
-   // Logger log = getLogger(TrainingApplication.class);
+   @Autowired
+    SongifyService songifyService;
 
     public static void main(String[] args) {
         SpringApplication.run(TrainingApplication.class, args);
@@ -35,13 +28,18 @@ public class TrainingApplication {
     @EventListener(ApplicationStartedEvent.class)
     public void run() {
         try {
-//            ItunesResponse response = itunesClient.makeSearchRequest("shawnmendes", 5);
-            log.info(sampleShawnMendesServerClient.fetchAllSongs("id1"));
-            //sampleShawnMendesServerClient.deleteByIdUsingQueryParam("0");
-            log.info(sampleShawnMendesServerClient.addSong(new SampleShawnMendesRequest("piosenka 111")));
-            log.info(sampleShawnMendesServerClient.addSong(new SampleShawnMendesRequest("piosenka 222")));
-            sampleShawnMendesServerClient.deleteByPathVariableId("0");
-            log.info(sampleShawnMendesServerClient.fetchAllSongs("id2"));
+            log.info(songifyService.makeGetRequestById(1));
+            log.info(songifyService.makeGetRequestAllWithLimit(2));
+            log.info(songifyService.makeGetRequestAll());
+            songifyService.makePostSampleSong(new SongAdd("Nowa piosenka 1","Tomek"));
+            songifyService.makePostSampleSong(new SongAdd("Nowa piosenka 2","Adam"));
+            log.info(songifyService.makeGetRequestAll());
+            songifyService.makePutUpdateSampleSongByIdInteger(2, new SongAdd("Update","Update"));
+            //songifyService.makeDeleteById(3);
+            log.info(songifyService.makeGetRequestAll());
+            songifyService.makePatchUpdateSampleSongByIdInteger(1, new SongAdd("Nowa","Update"));
+            log.info(songifyService.makeGetRequestAll());
+
         } catch (FeignException.FeignClientException feignException) {
             log.error("Client exception: " + feignException.status());
         } catch (FeignException.FeignServerException feignException) {

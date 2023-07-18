@@ -1,4 +1,4 @@
-package pl.jjr.tomwodz.training;
+package pl.jjr.tomwodz.training.songifyclient.configuration;
 
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
